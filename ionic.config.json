@@ -1,0 +1,7 @@
+{
+  "name": "VibhavaApp",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
