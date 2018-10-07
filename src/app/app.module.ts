@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { IonicStorageModule } from '@ionic/storage';
 
 import { AboutPage } from '../pages/about/about';
 
@@ -12,7 +13,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { OnlinePage } from '../pages/online/online';
 import {QrReaderPage} from '../pages/qr-reader/qr-reader'
-
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 @NgModule({
   declarations: [
     MyApp,
@@ -24,7 +25,9 @@ import {QrReaderPage} from '../pages/qr-reader/qr-reader'
   ],
   imports: [
     BrowserModule,
+    IonicStorageModule.forRoot(),
     IonicModule.forRoot(MyApp)
+    
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -32,14 +35,15 @@ import {QrReaderPage} from '../pages/qr-reader/qr-reader'
     AboutPage,
     TabsPage,
     OnlinePage,
-    QrReaderPage,
+    QrReaderPage
     
   ],
   providers: [
     StatusBar,
     SplashScreen,
     BarcodeScanner,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    InAppBrowser
   ]
 })
 export class AppModule {}
