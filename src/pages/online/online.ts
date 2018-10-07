@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 
 /**
  * Generated class for the OnlinePage page.
@@ -14,11 +14,13 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'online.html',
 })
 export class OnlinePage {
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  height:number;
+  constructor(public navCtrl: NavController, public navParams: NavParams,public platform :Platform) {
   }
 
   ionViewDidLoad() {
+    this.height=500;
+    this.height=this.platform.height();
     console.log('ionViewDidLoad OnlinePage');
   }
 
