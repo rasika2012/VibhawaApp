@@ -30,13 +30,12 @@ export class QrReaderPage {
         role: 'OK',
         handler: () => {
           this.barcodeScanner.scan().then((barcodeData) => {
-            if(barcodeData.text.length>5)
-           // this.items.push(barcodeData);
             this.saveCode(barcodeData.text);
             this.showAlert("නව කේතය ",barcodeData.text);
            }).catch(err => {
               //this.items.push("sdadsda");
               this.showAlert("නව කේතයහි වැරැද්දක්","කරුනාකර නැවත උත්සාහ කරන්න");
+              
            });
         }
       }]
@@ -46,8 +45,20 @@ export class QrReaderPage {
     
   }
   ionViewDidLoad() {
-    this.items=[];
-    this.getCodes();
+    this.items=['sample.google.com'];
+    this.storage.get('qr_list').then((val) => {
+      if(val.length==0){
+        this.saveToStorage();
+      }
+      
+    }).catch(err=>{
+    
+      this.saveToStorage();
+    }).then(done=>{
+      this.getCodes();
+    });
+    
+    
     //this.visitCode("http://google.com");
     console.log('ionViewDidLoad QrReaderPage');
   }
