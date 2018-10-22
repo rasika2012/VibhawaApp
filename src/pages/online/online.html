@@ -5,14 +5,44 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
-  <!-- <ion-navbar>
-    <ion-title>VLA UOP</ion-title> 
-  </ion-navbar> -->
-  <iframe width="100%" height={{height}} src="https://rasika2012.github.io/web.huhina/"></iframe>
+    <ion-navbar>
+        <ion-title>
+            Online 
+        </ion-title>
+      </ion-navbar>
 </ion-header>
 
 
-<ion-content padding>
+<ion-content >
+    <ion-card *ngFor="let item of articles">
+        <ion-item>
+          <h2>{{item.topic}}</h2>
+          <p>{{item.author}}</p>
+        </ion-item>
+        <img src={{item.icon}} >
+
+        <div *ngIf="item.but=='less...'">
+          <div *ngFor="let img of item.img" >
+          <br>
+          <img src={{img}}>
+          </div>
+        </div>
+
+        <ion-card-content>
+          <p>{{item.disp}}</p>
+        </ion-card-content>
+        <div *ngIf="item.but=='less...'">
+        <button  *ngFor="let link of item.links" (click)="openUrl(link)" ion-button clear small>  
+            <div  >{{link}}</div>
+        </button>
+      </div>
+        <ion-row>
+          <ion-col>
+            <button ion-button icon-start clear small>  
+              <div (click)= "showArticle(item)">{{item.but}}</div>
+            </button>
+          </ion-col>
+        </ion-row>
+    </ion-card>
 
 </ion-content>
