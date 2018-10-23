@@ -14,7 +14,7 @@
 
 
 <ion-content >
-    <ion-card *ngFor="let item of articles">
+    <ion-card *ngFor="let item of articles" >
         <ion-item>
           <h2>{{item.topic}}</h2>
           <p>{{item.author}}</p>
@@ -32,13 +32,13 @@
           <p>{{item.disp}}</p>
         </ion-card-content>
         <div *ngIf="item.but=='less...'">
-        <button  *ngFor="let link of item.links" (click)="openUrl(link)" ion-button clear small>  
+        <button  *ngFor="let link of item.links" (click)="openUrl(link)" text-lowercase ion-button clear small>  
             <div  >{{link}}</div>
         </button>
       </div>
         <ion-row>
           <ion-col>
-            <button ion-button icon-start clear small>  
+            <button ion-button icon-start clear small >  
               <div (click)= "showArticle(item)">{{item.but}}</div>
             </button>
           </ion-col>

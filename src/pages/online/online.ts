@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform ,AlertController} from 'ionic-angular';
 import { InAppBrowser ,InAppBrowserOptions} from '@ionic-native/in-app-browser';
+import { HttpClient } from '@angular/common/http';
+
+
 /**
  * Generated class for the OnlinePage page.
  *
@@ -14,19 +17,31 @@ import { InAppBrowser ,InAppBrowserOptions} from '@ionic-native/in-app-browser';
   templateUrl: 'online.html',
 })
 export class OnlinePage {
-  
+  films: any;
   articles:any=[
-      {"author": "Hapaya" ,
-      "topic":"dssdsdsd",
-      "shortNote":" වැඩේට ඔයාගෙනුත් පොඩි සහයෝගයක් බලාපොරොත්තු වෙනවා",
-      "content":"ආයුබෝවන් කටිටියටම ඔන්න එහෙනම් මමත් හා හා පුරා කියල සිංහලෙන් බ්ලොග් එකක් කොටන්න පටන් ගත්ත.ඉස් ඉස්සෙල්ලම අතගහපු වැඩේට ඔයාගෙනුත් පොඩි සහයෝගයක් බලාපොරොත්තු වෙනවා.වැඩිය මුකුත් ඕන නෑ මං ඉස්සරහට හොද හොද ඒවා දානව මේකේ. ඉතින් ඔයාලට කරන්න තියෙන්නෙ මෙච්චරයි. මගේ මේ බ්ලොග් එක Follow කලා නම් ඈති. ඒක මට ලොකු හයියක්. \n මුල්ම වැඩේ එහෙනම් තව පොඩ්ඩකින් බලා ගන්න පුළුවන් ඔයාලට..",
-      "img":["https://2.bp.blogspot.com/-rAl9hdMLxZM/USSV5qX36PI/AAAAAAAABOU/BHA9BjH8xB8/s1600/Peradeniya+University+Sri+Lanka+Campus+News++www.lankauniversity-news.com+(19).jpg","https://2.bp.blogspot.com/-rAl9hdMLxZM/USSV5qX36PI/AAAAAAAABOU/BHA9BjH8xB8/s1600/Peradeniya+University+Sri+Lanka+Campus+News++www.lankauniversity-news.com+(19).jpg"],
-      "disp":"asdsadadad","but":"more...",
-      "icon":"https://2.bp.blogspot.com/-rAl9hdMLxZM/USSV5qX36PI/AAAAAAAABOU/BHA9BjH8xB8/s1600/Peradeniya+University+Sri+Lanka+Campus+News++www.lankauniversity-news.com+(19).jpg",
-      "links":["https://2.bp.blogspot.com/-rAl9hdMLxZM/USSV5qX36PI/AAAAAAAABOU/BHA9BjH8xB8/s1600/Peradeniya+University+Sri+Lanka+Campus+News++www.lankauniversity-news.com+(19).jpg","https://2.bp.blogspot.com/-rAl9hdMLxZM/USSV5qX36PI/AAAAAAAABOU/BHA9BjH8xB8/s1600/Peradeniya+University+Sri+Lanka+Campus+News++www.lankauniversity-news.com+(19).jpg"],
+      {"author": "" ,
+      "topic":"Loading..",
+      "shortNote":"",
+      "content":"",
+      "img":[""],
+      "disp":"","but":"more...",
+      "icon":"",
+      "links":[""]
     },
   ];
-  constructor(private iab: InAppBrowser ,public navCtrl: NavController, public navParams: NavParams,public platform :Platform) {
+  constructor(public alertCtrl:AlertController,public httpClient: HttpClient,private iab: InAppBrowser ,public navCtrl: NavController, public navParams: NavParams,public platform :Platform) {
+   
+   
+   this.films = this.httpClient.get('https://rasika2012.github.io/backendApp/index.json',);
+   this.films
+   .subscribe(data => {
+     console.log(this.articles);
+     this.articles=data;
+     console.log('my data: ', data);
+   },(err)=>{
+      this.showAlert("ගැටලුවක්!","අන්තර්ජාලය සම සම්බන්ධ විය නොහැක,කරුනාකර නැවත උත්සාහ කරන්න")
+   })
+  
   }
 
   ionViewDidLoad() {
@@ -34,8 +49,20 @@ export class OnlinePage {
   }
   convertToJson(){
     var obj = JSON.stringify(this.articles);
-    
     console.log(obj);
+  }
+
+  reloadarticle(){
+    
+   this.films = this.httpClient.get('https://rasika2012.github.io/backendApp/index.json',);
+   this.films
+   .subscribe(data => {
+     console.log(this.articles);
+     this.articles=data;
+     console.log('my data: ', data);
+   },(err)=>{
+    this.showAlert("ගැටලුවක්!","අන්තර්ජාලය සම සම්බන්ධ විය නොහැක,කරුනාකර නැවත උත්සාහ කරන්න");
+   })
   }
 
   showArticle(item){
@@ -49,7 +76,20 @@ export class OnlinePage {
       item.but="less..."
     }
   }
-
+  showAlert(topic:string,msg:string){
+    const alert = this.alertCtrl.create({
+      title: topic,
+      subTitle: msg,
+      buttons: [{
+        text: 'හරි',
+        role: 'OK',
+        handler: () => {
+          this.reloadarticle();
+        }
+      }]
+    });
+    alert.present();
+  }
   openUrl(url:string){
     const   options : InAppBrowserOptions = {
       location : 'yes',//Or 'no' 

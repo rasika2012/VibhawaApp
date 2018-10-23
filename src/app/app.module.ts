@@ -14,6 +14,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { OnlinePage } from '../pages/online/online';
 import {QrReaderPage} from '../pages/qr-reader/qr-reader'
 import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { HttpClientModule } from '@angular/common/http';
+ 
+
 @NgModule({
   declarations: [
     MyApp,
@@ -26,7 +29,9 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
   imports: [
     BrowserModule,
     IonicStorageModule.forRoot(),
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    HttpClientModule
+    
     
   ],
   bootstrap: [IonicApp],
@@ -43,7 +48,8 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
     SplashScreen,
     BarcodeScanner,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    InAppBrowser
+    InAppBrowser,
+    
   ]
 })
 export class AppModule {}
