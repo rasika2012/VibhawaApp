@@ -40,13 +40,53 @@ export class MyApp {
     this.nav.setRoot(QrReaderPage);
   }
 
-  showAlert(topic:string,msg:string){
+  showAlert(){
     const alert = this.alertCtrl.create({
-      title: topic,
-      subTitle: msg,
-      buttons: ['හරි']
+      title: 'විභව සාහිත්‍ය සංගමය',
+      subTitle: 'මෙය ',
+      buttons:[{
+        text: 'හරි',
+        handler: data => {
+          console.log('Cancel clicked');
+        }
+      },{
+        text: 'යෝජනාවක් යොමුකරන්න',
+        role: 'OK',
+        handler: () => {
+          this.feedBack();
+        }
+      }]
     });
     alert.present();
   }
 
+  feedBack() {
+    const prompt = this.alertCtrl.create({
+      title: 'ඔබේ අදහස අපට කියන්න',
+      message: "VibhavaApp හා ලිපි සඳහා අදහස් හා යෝජනා මෙතනින් යොමු කරන්න",
+      inputs: [
+        {
+          name: 'title',
+          placeholder: 'ඔබේ අදහස'
+        },
+      ],
+      buttons: [
+        {
+          text: 'ඉවතට',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'යවන්න',
+          handler: data => {
+            console.log('Saved clicked');
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
 }
+
+
