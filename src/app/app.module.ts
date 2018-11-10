@@ -15,7 +15,7 @@ import { OnlinePage } from '../pages/online/online';
 import {QrReaderPage} from '../pages/qr-reader/qr-reader'
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { HttpClientModule } from '@angular/common/http';
- 
+import { EmailComposer } from '@ionic-native/email-composer';
 
 @NgModule({
   declarations: [
@@ -49,6 +49,7 @@ import { HttpClientModule } from '@angular/common/http';
     BarcodeScanner,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     InAppBrowser,
+    EmailComposer
     
   ]
 })

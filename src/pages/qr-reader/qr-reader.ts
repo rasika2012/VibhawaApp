@@ -19,6 +19,7 @@ import { HttpClient } from '@angular/common/http';
 export class QrReaderPage {
   items:Array<any>;
   link:any;
+  inv_items:any;
   //items_tmp:Array<string>;
   constructor(public httpClient: HttpClient,private storage: Storage,private iab: InAppBrowser,public navCtrl: NavController,private barcodeScanner: BarcodeScanner, public navParams: NavParams,public alertCtrl:AlertController) {
   }
@@ -115,6 +116,7 @@ export class QrReaderPage {
     console.log(this.items.length);
     
     this.items=numbers;
+    this.inv_items=this.items.slice().reverse();
     this.saveToStorage();
   }
   saveToStorage(){
@@ -123,6 +125,7 @@ export class QrReaderPage {
   getCodes(){
     this.storage.get('qr_list').then((val) => {
       this.items=val;
+      this.inv_items=this.items.slice().reverse();
     });
   }
   deleteCode(item:any){
@@ -131,6 +134,7 @@ export class QrReaderPage {
     if(index > -1){
       this.items.splice(index, 1);
       this.saveToStorage();
+      this.inv_items=this.items.slice().reverse();
     }
 
   }

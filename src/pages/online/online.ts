@@ -115,6 +115,7 @@ export class OnlinePage {
     this.storage.get('article').then((val) => {
       this.articles=val;
     });
+    
   }
 
 
