@@ -4,6 +4,7 @@ import { AboutPage } from '../about/about';
 import{QrReaderPage}from '../qr-reader/qr-reader'
 import {OnlinePage} from '../online/online'
 
+
 @Component({
   templateUrl: 'tabs.html'
 })
@@ -16,4 +17,7 @@ export class TabsPage {
   constructor() {
 
   }
+  
+
+
 }

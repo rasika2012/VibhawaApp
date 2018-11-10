@@ -6,32 +6,63 @@
 -->
 <ion-header>
 
-    <ion-navbar>
-        <button ion-button icon-only menuToggle>
-          <ion-icon name="menu"></ion-icon>
-        </button>
-    
-        <ion-title>
-            QR History
-        </ion-title>
-      </ion-navbar>
+  <ion-navbar color="dark">
+    <button ion-button icon-only menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>
+      QR කේත
+    </ion-title>
+  </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
 
-    <ion-fab bottom right >
-        <button ion-fab color="light" (click)="addQR()" ><ion-icon name="add"></ion-icon></button>
-      </ion-fab>
+  <ion-fab bottom right>
+    <button ion-fab color="yello" (click)="addQR()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+  <!-- 
+  <ion-list>
+    <ion-item *ngFor="let item of items">
+      <ion-icon name="ios-link" (click)="visitCode(item)" item-start></ion-icon>
+      {{item}}
+      <button ion-button icon-only (click)="deleteCode(item)" clear item-end>
+        <ion-icon name="md-trash" (click)="deleteCode(item)"></ion-icon>
+      </button>
+    </ion-item>
+  </ion-list> -->
 
-      <ion-list>
-          <ion-item *ngFor="let item of items" >
-            <ion-icon name="ios-link"  (click)="visitCode(item)" item-start></ion-icon>
-              {{item}}
-              <button ion-button icon-only (click)="deleteCode(item)"  clear item-end>
-                  <ion-icon name="md-trash" (click)="deleteCode(item)"></ion-icon>
-              </button>
-          </ion-item>
-      </ion-list>
+  <ion-card *ngFor="let item of items">
+    <ion-card-header>
+      <h1 style="color:rgba(14, 0, 90, 1)" >{{item.name}}</h1>
+
+    </ion-card-header>
+
+    <ion-card-content>
+      <h2 >{{item.article_name}}</h2>
+      <p>{{item.discription}}</p>
+      
+    </ion-card-content>
+
+    <ion-row *ngFor="let link of item.links">
+      <ion-col>
+        <button ion-button icon-start clear small>
+          <div (click)="visitCode(link)" text-lowercase>{{link}}</div>
+        </button>
+      </ion-col>
+
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-icon name="md-trash" color="danger" (click)="deleteCode(item)" right></ion-icon>
+      </ion-col>
+    </ion-row>
+
+  </ion-card>
+
 </ion-content>

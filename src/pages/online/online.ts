@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform ,AlertController} from 'ionic-angular';
 import { InAppBrowser ,InAppBrowserOptions} from '@ionic-native/in-app-browser';
 import { HttpClient } from '@angular/common/http';
-
+import { Storage } from '@ionic/storage';
 
 /**
  * Generated class for the OnlinePage page.
@@ -17,35 +17,47 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: 'online.html',
 })
 export class OnlinePage {
-  films: any;
+  link: any;
   articles:any=[
-      {"author": "" ,
+      {"author": "Loading.." ,
       "topic":"Loading..",
-      "shortNote":"",
-      "content":"",
+      "shortNote": ["c","v"],
+      "content":["c","v"],
       "img":[""],
-      "disp":"","but":"more...",
+      "disp":["a","b"],"but":"more...",
       "icon":"",
-      "links":[""]
+      "links":[""],
+      "id":""
     },
   ];
-  constructor(public alertCtrl:AlertController,public httpClient: HttpClient,private iab: InAppBrowser ,public navCtrl: NavController, public navParams: NavParams,public platform :Platform) {
-   
-   
-   this.films = this.httpClient.get('https://rasika2012.github.io/backendApp/index.json',);
-   this.films
-   .subscribe(data => {
+  constructor(private storage: Storage,public alertCtrl:AlertController,public httpClient: HttpClient,private iab: InAppBrowser ,public navCtrl: NavController, public navParams: NavParams,public platform :Platform) {
+    //this.storage.set('article', null);
+    
+    this.getArticles()
+   this.link = this.httpClient.get('https://vibhavauop.github.io/backendApp/index.json',);
+   this.link.subscribe(data => {
      console.log(this.articles);
      this.articles=data;
      console.log('my data: ', data);
+     this.saveToStorage();
+     console.log(data);
    },(err)=>{
-      this.showAlert("ගැටලුවක්!","අන්තර්ජාලය සම සම්බන්ධ විය නොහැක,කරුනාකර නැවත උත්සාහ කරන්න")
-   })
-  
+      this.showAlert("ගැටලුවක්!","අන්තර්ජාලය හා සම්බන්ධ විය නොහැක")
+   });
   }
 
   ionViewDidLoad() {
-    console.log('sddsds');
+    this.getArticles()
+   this.link = this.httpClient.get('https://vibhavauop.github.io/backendApp/index.json',);
+   this.link.subscribe(data => {
+     console.log(this.articles);
+     this.articles=data;
+     console.log('my data: ', data);
+     this.saveToStorage();
+     console.log(data);
+   },(err)=>{
+      this.showAlert("ගැටලුවක්!","අන්තර්ජාලය හා සම්බන්ධ විය නොහැක")
+   });
   }
   convertToJson(){
     var obj = JSON.stringify(this.articles);
@@ -53,16 +65,16 @@ export class OnlinePage {
   }
 
   reloadarticle(){
-    
-   this.films = this.httpClient.get('https://rasika2012.github.io/backendApp/index.json',);
-   this.films
+   this.link = this.httpClient.get('https://vibhavauop.github.io/backendApp/index.json',);
+   this.link
    .subscribe(data => {
      console.log(this.articles);
      this.articles=data;
      console.log('my data: ', data);
+     this.saveToStorage()
    },(err)=>{
-    this.showAlert("ගැටලුවක්!","අන්තර්ජාලය සම සම්බන්ධ විය නොහැක,කරුනාකර නැවත උත්සාහ කරන්න");
-   })
+    this.showAlert("ගැටලුවක්!","අන්තර්ජාලය හා සම්බන්ධ විය නොහැක.කරුණාකර සබඳතාවය නැවත පරීක්ෂා කරනන්න.");
+   });
   }
 
   showArticle(item){
@@ -81,7 +93,12 @@ export class OnlinePage {
       title: topic,
       subTitle: msg,
       buttons: [{
-        text: 'හරි',
+        text: 'එපා',
+        handler: data => {
+          console.log('Cancel clicked');
+        }
+      },{
+        text: 'නැවත උත්සාහ කරන්න',
         role: 'OK',
         handler: () => {
           this.reloadarticle();
@@ -90,6 +107,17 @@ export class OnlinePage {
     });
     alert.present();
   }
+  saveToStorage(){
+    this.storage.set('article', this.articles);
+  }
+
+  getArticles(){
+    this.storage.get('article').then((val) => {
+      this.articles=val;
+    });
+  }
+
+
   openUrl(url:string){
     const   options : InAppBrowserOptions = {
       location : 'yes',//Or 'no' 

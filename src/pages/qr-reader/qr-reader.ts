@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams ,AlertController} from 'ionic-angul
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { Storage } from '@ionic/storage';
 import { InAppBrowser ,InAppBrowserOptions} from '@ionic-native/in-app-browser';
+import { HttpClient } from '@angular/common/http';
 /**
  * Generated class for the QrReaderPage page.
  *
@@ -16,9 +17,10 @@ import { InAppBrowser ,InAppBrowserOptions} from '@ionic-native/in-app-browser';
   templateUrl: 'qr-reader.html',
 })
 export class QrReaderPage {
-  items:Array<string>;
+  items:Array<any>;
+  link:any;
   //items_tmp:Array<string>;
-  constructor(private storage: Storage,private iab: InAppBrowser,public navCtrl: NavController,private barcodeScanner: BarcodeScanner, public navParams: NavParams,public alertCtrl:AlertController) {
+  constructor(public httpClient: HttpClient,private storage: Storage,private iab: InAppBrowser,public navCtrl: NavController,private barcodeScanner: BarcodeScanner, public navParams: NavParams,public alertCtrl:AlertController) {
   }
   
   addQR(){
@@ -30,8 +32,18 @@ export class QrReaderPage {
         role: 'OK',
         handler: () => {
           this.barcodeScanner.scan().then((barcodeData) => {
-            this.saveCode(barcodeData.text);
-            this.showAlert("නව කේතය ",barcodeData.text);
+            this.link = this.httpClient.get(barcodeData.text,);
+            this.link
+            .subscribe(data => {
+            this.saveCode(data);
+            console.log('my data: ', data);
+            this.saveToStorage()
+            //this.showAlert("නව කේතය ",barcodeData.text);
+   },(err)=>{
+    this.showAlert("ගැටලුවක්!","අන්තර්ජාලය හා සම්බන්ධ විය නොහැක හෝ QR කේතයේ වැරැද්දක් ");
+   })
+            //this.saveCode(barcodeData.text);
+            //this.showAlert("නව කේතය ",barcodeData.text);
            }).catch(err => {
               //this.items.push("sdadsda");
               this.showAlert("නව කේතයහි වැරැද්දක්","කරුනාකර නැවත උත්සාහ කරන්න");
@@ -45,7 +57,15 @@ export class QrReaderPage {
     
   }
   ionViewDidLoad() {
-    this.items=['sample.google.com'];
+    this.items=[{"name":"විභව Facebook පිටුව",
+    "article_name":"ඔබට අප හා Facebook තුලින්ද සම්බන්ධ විය හැක",
+    "date":"2018.11.1",
+    "discription":"වැඩිදුර තොරතුරු සඳහා පිවිසෙන්න",
+    "icon":"https://rasika2012.github.io/backendApp/res/dasuni1.webp",
+    "links":["www.facebook.com/VibhavamagazineUOP"]}
+];
+//this.saveToStorage();
+    console.log(this.items)
     this.storage.get('qr_list').then((val) => {
       if(val.length==0){
         this.saveToStorage();

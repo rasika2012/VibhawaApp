@@ -4,45 +4,47 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<ion-header>
-    <ion-navbar>
+<!-- <ion-header >
+    <ion-navbar color="dark" >
         <ion-title>
             Online 
         </ion-title>
       </ion-navbar>
-</ion-header>
+</ion-header> -->
 
 
-<ion-content >
-    <ion-card *ngFor="let item of articles" >
-        <ion-item>
-          <h2>{{item.topic}}</h2>
-          <p>{{item.author}}</p>
-        </ion-item>
-        <img src={{item.icon}} >
+<ion-content>
+  <ion-card *ngFor="let item of articles">
+    <ion-item>
+      <h1 style="color:rgba(14, 0, 90, 1)">{{item.topic}}</h1>
+      <p>{{item.author}}</p>
+    </ion-item>
+    <img src={{item.icon}}>
 
-        <div *ngIf="item.but=='less...'">
-          <div *ngFor="let img of item.img" >
-          <br>
-          <img src={{img}}>
-          </div>
-        </div>
-
-        <ion-card-content>
-          <p>{{item.disp}}</p>
-        </ion-card-content>
-        <div *ngIf="item.but=='less...'">
-        <button  *ngFor="let link of item.links" (click)="openUrl(link)" text-lowercase ion-button clear small>  
-            <div  >{{link}}</div>
-        </button>
+    <div *ngIf="item.but=='less...'">
+      <div *ngFor="let img of item.img">
+        <br>
+        <img src={{img}}>
       </div>
-        <ion-row>
-          <ion-col>
-            <button ion-button icon-start clear small >  
-              <div (click)= "showArticle(item)">{{item.but}}</div>
-            </button>
-          </ion-col>
-        </ion-row>
-    </ion-card>
+    </div>
+
+    <ion-card-content>
+      <div *ngFor="let raw of item.disp">
+        <p>{{raw}}</p>
+      </div>
+    </ion-card-content>
+    <div *ngIf="item.but=='less...'">
+      <button *ngFor="let link of item.links" (click)="openUrl(link)" text-lowercase ion-button clear small>
+        <div>{{link}}</div>
+      </button>
+    </div>
+    <ion-row>
+      <ion-col>
+        <button ion-button icon-start clear small>
+          <div (click)="showArticle(item)">{{item.but}}</div>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-card>
 
 </ion-content>
